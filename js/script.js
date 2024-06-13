@@ -1,68 +1,56 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const quantidadeInput = document.getElementById("quantidade");
-    const opcoesCamisasDiv = document.getElementById("opcoesCamisas");
+    const quantidadeInput = document.getElementById('quantidade');
+    const camisasContainer = document.getElementById('camisas-container');
 
-    quantidadeInput.addEventListener("input", function() {
-        const quantidade = quantidadeInput.value;
-        opcoesCamisasDiv.innerHTML = '';
-
+    function updateCamisaOptions() {
+        const quantidade = parseInt(quantidadeInput.value, 10);
+        camisasContainer.innerHTML = '';
+        
         for (let i = 0; i < quantidade; i++) {
-            const tamanhoDiv = document.createElement("div");
-            tamanhoDiv.classList.add("row");
+            const camisaDiv = document.createElement('div');
+            camisaDiv.className = 'camisa';
 
-            const tamanhoLabel = document.createElement("label");
-            tamanhoLabel.setAttribute("for", `tamanho${i}`);
-            tamanhoLabel.textContent = `TAMANHO (Camisa ${i + 1}):`;
-            tamanhoDiv.appendChild(tamanhoLabel);
+            const tamanhoLabel = document.createElement('label');
+            tamanhoLabel.htmlFor = `tamanho-${i}`;
+            tamanhoLabel.innerText = `Tamanho da Camisa ${i + 1}:`;
+            camisaDiv.appendChild(tamanhoLabel);
 
-            const tamanhoSelect = document.createElement("select");
-            tamanhoSelect.id = `tamanho${i}`;
-            tamanhoSelect.name = `tamanho${i}`;
-            tamanhoSelect.required = true;
-            ["PP", "P", "M", "G", "GG", "EXG"].forEach(tamanho => {
-                const option = document.createElement("option");
-                option.value = tamanho;
-                option.textContent = tamanho;
+            const tamanhoSelect = document.createElement('select');
+            tamanhoSelect.id = `tamanho-${i}`;
+            tamanhoSelect.name = `tamanho[${i}]`;
+            ['PP', 'P', 'M', 'G', 'GG', 'EXG'].forEach(size => {
+                const option = document.createElement('option');
+                option.value = size;
+                option.innerText = size;
                 tamanhoSelect.appendChild(option);
             });
-            tamanhoDiv.appendChild(tamanhoSelect);
+            camisaDiv.appendChild(tamanhoSelect);
 
-            const modeloDiv = document.createElement("div");
-            modeloDiv.classList.add("row");
-            const modeloLabel = document.createElement("label");
-            modeloLabel.textContent = `MODELO (Camisa ${i + 1}):`;
-            modeloDiv.appendChild(modeloLabel);
+            const modeloLabel = document.createElement('label');
+            modeloLabel.htmlFor = `modelo-${i}`;
+            modeloLabel.innerText = `Modelo da Camisa ${i + 1}:`;
+            camisaDiv.appendChild(modeloLabel);
 
-            const modelos = ["Manga", "Regata", "Nadador", "Babylook"];
-            const modelOptionsDiv = document.createElement("div");
-            modelOptionsDiv.classList.add("model-options");
-
-            modelos.forEach(modelo => {
-                const modelItemDiv = document.createElement("div");
-                modelItemDiv.classList.add("model-item");
-
-                const modelRadio = document.createElement("input");
-                modelRadio.type = "radio";
-                modelRadio.id = `${modelo}${i}`;
-                modelRadio.name = `modelo${i}`;
-                modelRadio.value = modelo;
-                modelRadio.required = true;
-                modelItemDiv.appendChild(modelRadio);
-
-                const modelLabel = document.createElement("label");
-                modelLabel.setAttribute("for", `${modelo}${i}`);
-                modelLabel.textContent = modelo;
-                modelItemDiv.appendChild(modelLabel);
-
-                modelOptionsDiv.appendChild(modelItemDiv);
+            ['Manga', 'Regata', 'Nadador', 'Babylook'].forEach(model => {
+                const modelItem = document.createElement('div');
+                modelItem.className = 'model-item';
+                const input = document.createElement('input');
+                input.type = 'radio';
+                input.id = `modelo-${model}-${i}`;
+                input.name = `modelo[${i}]`;
+                input.value = model;
+                const label = document.createElement('label');
+                label.htmlFor = input.id;
+                label.innerText = model;
+                modelItem.appendChild(input);
+                modelItem.appendChild(label);
+                camisaDiv.appendChild(modelItem);
             });
 
-            modeloDiv.appendChild(modelOptionsDiv);
-            opcoesCamisasDiv.appendChild(tamanhoDiv);
-            opcoesCamisasDiv.appendChild(modeloDiv);
+            camisasContainer.appendChild(camisaDiv);
         }
-    });
+    }
 
-    // Dispara o evento input para inicializar a quantidade
-    quantidadeInput.dispatchEvent(new Event('input'));
+    quantidadeInput.addEventListener('change', updateCamisaOptions);
+    updateCamisaOptions();
 });
