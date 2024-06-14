@@ -27,18 +27,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->close();
 
     // Inserir modelos de camisas
-    for ($i = 0; $i < count($modelos); $i++) {
-        $modelo = $modelos[$i];
+    foreach ($modelos as $i => $modelo) {
         $tamanho = $tamanhos[$i];
         $stmt = $conn->prepare("INSERT INTO modelos_camisas (pedido_id, modelo, tamanho) VALUES (?, ?, ?)");
         $stmt->bind_param("iss", $pedido_id, $modelo, $tamanho);
         $stmt->execute();
     }
 
-    echo "Pedido inserido com sucesso!";
+    $conn->close();
+    header("Location: ../templates/success.html");
+    exit();
 } else {
     echo "Método de requisição inválido.";
 }
-
-$conn->close();
 ?>
