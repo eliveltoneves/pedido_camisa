@@ -8,8 +8,7 @@ $dbname = "pedido_camisas";
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Verificar conexão
-if ($conn->connect_error) {
-    die("Conexão falhou: " . $conn->connect_error);
+if(!$conn) {
+    die("Conexão falhou. Erro: " .mysqli_connect_error());
 }
-echo "Conexão bem-sucedida " 
 ?>
