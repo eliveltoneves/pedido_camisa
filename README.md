@@ -140,7 +140,3 @@ Para dúvidas ou sugestões, entre em contato:
 - [Bootstrap Documentation](https://getbootstrap.com/docs/5.1/getting-started/introduction/)
 - [XAMPP Official Website](https://www.apachefriends.org/index.html)
 - [GitHub - pedido_camisa](https://github.com/eliveltoneves/pedido_camisa)
-
----
-
-Este arquivo README fornece uma visão completa das funcionalidades, instalação e uso do sistema de gerenciamento de pedidos de camisas, além de orientar desenvolvedores sobre como contribuir para o projeto.
