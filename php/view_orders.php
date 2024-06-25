@@ -20,7 +20,7 @@ $result = $conn->query("SELECT pedidos.id AS pedido_id, clientes.nome, clientes.
                         JOIN clientes ON pedidos.cliente_id = clientes.id");
 while ($row = $result->fetch_assoc()) {
     $pedido_id = $row['pedido_id'];
-    
+
     $modelos_result = $conn->query("SELECT modelo, tamanho FROM modelos_camisas WHERE pedido_id = $pedido_id");
     $modelos = [];
     while ($modelo_row = $modelos_result->fetch_assoc()) {
@@ -42,6 +42,7 @@ $conn->close();
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -55,37 +56,41 @@ $conn->close();
         function excluirPedido(pedidoId) {
             if (confirm('Você tem certeza que deseja excluir este pedido?')) {
                 fetch('../php/delete_order.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ pedido_id: pedidoId })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Pedido excluído com sucesso.');
-                        location.reload();
-                    } else {
-                        alert('Erro ao excluir pedido: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    alert('Erro ao excluir pedido: ' + error.message);
-                });
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            pedido_id: pedidoId
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Pedido excluído com sucesso.');
+                            location.reload();
+                        } else {
+                            alert('Erro ao excluir pedido: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        alert('Erro ao excluir pedido: ' + error.message);
+                    });
             }
         }
     </script>
 </head>
+
 <body>
     <div class="container">
+        <img src="../assets/img/logo_vitafit.png" alt="logo" width="300" height="300">
         <h1>Visualizar Pedidos</h1>
         <div class="stats">
             <p>Total de Pedidos: <?= $totalPedidos ?></p>
             <p>Total de Camisas: <?= $totalCamisas ?></p>
             <p>Total de Camisas por Tipo e Tamanho:</p>
             <ul>
-                <?php foreach ($modelosTotais as $modelo): ?>
+                <?php foreach ($modelosTotais as $modelo) : ?>
                     <li><?= $modelo['modelo'] ?> (<?= $modelo['tamanho'] ?>): <?= $modelo['total'] ?></li>
                 <?php endforeach; ?>
             </ul>
@@ -102,7 +107,7 @@ $conn->close();
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($pedidos as $pedido): ?>
+                <?php foreach ($pedidos as $pedido) : ?>
                     <tr>
                         <td><?= $pedido['pedido_id'] ?></td>
                         <td><?= $pedido['nome'] ?></td>
@@ -120,4 +125,5 @@ $conn->close();
         </table>
     </div>
 </body>
+
 </html>
